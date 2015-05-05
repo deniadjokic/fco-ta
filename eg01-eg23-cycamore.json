@@ -23,16 +23,16 @@
      "name": "DeployInst"
     }, 
     {
-     "lib": "Brightlite", 
-     "name": "FuelfabFacility"
+     "lib": "cycamore", 
+     "name": "FuelFab"
     }, 
     {
-     "lib": "Brightlite", 
-     "name": "ReactorFacility"
+     "lib": "cycamore", 
+     "name": "Reactor"
     }, 
     {
-     "lib": "Brightlite", 
-     "name": "ReprocessFacility"
+     "lib": "cycamore", 
+     "name": "Separations"
     }
    ]
   }, 
@@ -142,122 +142,149 @@
    }, 
    {
     "config": {
-     "FuelfabFacility": {
-      "fissle_stream": "U235", 
-      "in_commods": {
-       "key": "DU", 
-       "val": 0.0
+     "FuelFab": {
+      "fill_commod": "U238", 
+      "fill_recipe": "U238", 
+      "fill_size": 1e+60, 
+      "fiss_commods": {
+       "val": "U235"
       }, 
-      "maximum_storage": 1e+60, 
-      "non_fissle_stream": "U238", 
-      "out_commod": "LWR Fuel"
+      "fiss_size": 1e+60, 
+      "outcommod": "LWR Fuel", 
+      "spectrum": "thermal", 
+      "throughput": 1e+300
      }
     }, 
     "name": "LWR Fuel Fab"
    }, 
    {
     "config": {
-     "FuelfabFacility": {
-      "fissle_stream": "LWR Reprocessed", 
-      "in_commods": {
-       "key": "FR Reprocessed", 
-       "val": 1.0
+     "FuelFab": {
+      "fill_commod": "DU2", 
+      "fill_recipe": "DU", 
+      "fill_size": 1e+60, 
+      "fiss_commods": {
+       "val": "LWR Reprocessed"
       }, 
-      "maximum_storage": 1e+60, 
-      "non_fissle_stream": "DU2", 
-      "out_commod": "FR Fuel"
+      "fiss_size": 1e+60, 
+      "outcommod": "FR Fuel", 
+      "spectrum": "fission_spectrum_ave", 
+      "throughput": 1e+300
      }
     }, 
     "name": "FR Fuel Fab"
    }, 
    {
     "config": {
-     "ReprocessFacility": {
-      "commod_out": {
-       "val": [
-        "LWR Reprocessed", 
-        "WASTE"
-       ]
+     "Separations": {
+      "feed_commod_prefs": {
+       "val": "2.0"
       }, 
-      "in_commod": {
-       "val": "LWR Spent Fuel"
+      "feed_commods": {
+       "val": "spent_uox"
       }, 
-      "input_capacity": 20000000, 
-      "max_inv_size": 1e+299, 
-      "output_capacity": 20000000, 
-      "repro_input_path": "hist/FR_reprocess.txt"
+      "feedbuf_size": 1e+300, 
+      "leftover_commod": "WASTE", 
+      "streams": {
+       "item": {
+        "commod": "sep_stream", 
+        "info": {
+         "buf_size": "1e100", 
+         "efficiencies": {
+          "item": [
+           {
+            "comp": "Pu", 
+            "eff": 0.99
+           }, 
+           {
+            "comp": "Np", 
+            "eff": 0.99
+           }, 
+           {
+            "comp": "Am", 
+            "eff": 0.99
+           }, 
+           {
+            "comp": "Cm", 
+            "eff": 0.99
+           }
+          ]
+         }
+        }
+       }
+      }, 
+      "throughput": 1e+300
      }
     }, 
     "name": "LWR Separation"
    }, 
    {
     "config": {
-     "ReprocessFacility": {
-      "commod_out": {
-       "val": [
-        "FR Reprocessed", 
-        "WASTE"
-       ]
+     "Separations": {
+      "feed_commod_prefs": {
+       "val": "2.0"
       }, 
-      "in_commod": {
+      "feed_commods": {
        "val": "FR Spent Fuel"
       }, 
-      "input_capacity": 20000000, 
-      "max_inv_size": 1e+299, 
-      "output_capacity": 2000000, 
-      "repro_input_path": "hist/FR_reprocess.txt"
+      "feedbuf_size": 1e+300, 
+      "leftover_commod": "WASTE", 
+      "streams": {
+       "item": {
+        "commod": "sep_stream", 
+        "info": {
+         "buf_size": "1e100", 
+         "efficiencies": {
+          "item": [
+           {
+            "comp": "Pu", 
+            "eff": 0.99
+           }, 
+           {
+            "comp": "Np", 
+            "eff": 0.99
+           }, 
+           {
+            "comp": "Am", 
+            "eff": 0.99
+           }, 
+           {
+            "comp": "Cm", 
+            "eff": 0.99
+           }
+          ]
+         }
+        }
+       }
+      }, 
+      "throughput": 1e+300
      }
     }, 
     "name": "FR Reprocess"
    }, 
    {
     "config": {
-     "ReactorFacility": {
-      "CR_fissile": {
-       "val": [
-        "922350", 
-        "942380", 
-        "942390", 
-        "942400", 
-        "942410", 
-        "942420"
-       ]
-      }, 
-      "DA_mode": 0, 
-      "batches": 3, 
-      "burnupcalc_timestep": 200, 
-      "core_mass": 35000, 
-      "cylindrical_delta": 5, 
-      "disadv_a": 0.4095, 
-      "disadv_b": 0.70749, 
-      "disadv_fuel_sigs": 0.43, 
-      "disadv_mod_siga": 0.222, 
-      "disadv_mod_sigs": 3.44, 
-      "efficiency": 0.33, 
-      "flux_mode": 1, 
-      "fuel_Sig_tr": 3.94, 
-      "fuel_area": "89197", 
-      "generated_power": 1000.0, 
-      "in_commods": {
+     "Reactor": {
+      "assem_size": 11666.666666666666, 
+      "cycle_time": "11", 
+      "fuel_incommods": {
        "val": "LWR Fuel"
       }, 
-      "interpol_pairs": {
-       "key": "BURNUP", 
-       "val": 42
+      "fuel_inrecipes": {
+       "val": "fresh_uox"
       }, 
-      "libraries": {
-       "val": "extLWR"
+      "fuel_outcommods": {
+       "val": "LWR Spent Fuel"
       }, 
-      "max_inv_size": 1e+299, 
-      "mod_Sig_a": 0.0222, 
-      "mod_Sig_f": 0.0, 
-      "mod_Sig_tr": 3.46, 
-      "mod_thickness": 100, 
-      "nonleakage": 0.98, 
-      "out_commod": "LWR Spent Fuel", 
-      "reactor_life": 960, 
-      "target_burnup": 45, 
-      "tolerance": 0.001
+      "fuel_outrecipes": {
+       "val": "spent_uox"
+      }, 
+      "fuel_prefs": {
+       "val": 1.0
+      }, 
+      "n_assem_batch": "1", 
+      "n_assem_core": "3", 
+      "refuel_time": "1"
      }
     }, 
     "lifetime": 960, 
@@ -265,52 +292,27 @@
    }, 
    {
     "config": {
-     "ReactorFacility": {
-      "CR_fissile": {
-       "val": [
-        "922350", 
-        "942380", 
-        "942390", 
-        "942400", 
-        "942410", 
-        "942420"
-       ]
-      }, 
-      "DA_mode": 0, 
-      "batches": 5, 
-      "burnupcalc_timestep": 50, 
-      "core_mass": 3000, 
-      "cylindrical_delta": "5", 
-      "disadv_a": "0.40950", 
-      "disadv_b": "0.707490", 
-      "disadv_fuel_sigs": "0.430", 
-      "disadv_mod_siga": "0.2220", 
-      "disadv_mod_sigs": "3.440", 
-      "efficiency": "0.330", 
-      "flux_mode": "1", 
-      "fuel_Sig_tr": "3.940", 
-      "fuel_area": "89197", 
-      "generated_power": "400.0", 
-      "in_commods": {
+     "Reactor": {
+      "assem_size": 10000.0, 
+      "cycle_time": "11", 
+      "fuel_incommods": {
        "val": "FR Fuel"
       }, 
-      "interpol_pairs": {
-       "key": "BURNUP", 
-       "val": "42"
+      "fuel_inrecipes": {
+       "val": "fresh_fr_fuel"
       }, 
-      "libraries": {
-       "val": "FR50"
+      "fuel_outcommods": {
+       "val": "FR Spent Fuel"
       }, 
-      "max_inv_size": "1.000000000000000E+299", 
-      "mod_Sig_a": "0.02220", 
-      "mod_Sig_f": "0.0", 
-      "mod_Sig_tr": "3.460", 
-      "mod_thickness": "100", 
-      "nonleakage": "0.57", 
-      "out_commod": "FR Spent Fuel", 
-      "reactor_life": 960, 
-      "target_burnup": 200, 
-      "tolerance": "0.0010"
+      "fuel_outrecipes": {
+       "val": "spent_fr_fuel"
+      }, 
+      "fuel_prefs": {
+       "val": 1.0
+      }, 
+      "n_assem_batch": "1", 
+      "n_assem_core": "3", 
+      "refuel_time": "1"
      }
     }, 
     "lifetime": 960, 
